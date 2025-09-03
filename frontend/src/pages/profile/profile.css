@@ -1,0 +1,35 @@
+.page {
+	min-height: 100vh;
+	padding: 20px 15px 70px 15px;
+	box-sizing: border-box;
+	background-color: #161616;
+	color: #fff;
+}
+
+@media (min-width: 768px) {
+	.page {
+		padding: 20px 40px 70px 40px;
+	}
+}
+
+.extra-missions {
+	margin-top: 20px;
+}
+
+.profile-btn {
+	background-color: #a6000c;
+	color: white;
+	border: none;
+	border-radius: 17px;
+	padding: 0.7rem 1.5rem;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	margin: 1.5rem auto;
+	display: block;
+	transition: background-color 0.2s ease;
+}
+
+.profile-btn:hover {
+	background-color: #7a0009;
+}

@@ -1,0 +1,169 @@
+.card-container-wrapper {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 2rem 0;
+}
+
+.card-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+	justify-content: center;
+	z-index: 1;
+	text-align: center;
+}
+
+.card-number-input {
+	background-color: #4e0000;
+	color: #fff;
+	font-size: 1.4rem;
+	font-weight: bold;
+	padding: 0.5rem 3rem;
+	border-radius: 16px;
+	text-align: center;
+	border: none;
+	outline: none;
+	width: 300px;
+	height: 40px;
+}
+
+.card-number-input::placeholder {
+	color: #fff;
+	opacity: 0.7;
+	font-size: 1rem;
+}
+
+.card-button {
+	background-color: #fff;
+	color: #4e0000;
+	border: none;
+	border-radius: 17px;
+	padding: 0.6rem 2rem;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	width: 180px;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+
+.card-button:hover {
+	background-color: #4e0000;
+	color: #fff;
+}
+
+.card-image {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border-radius: 12px;
+}
+
+.card-instruction {
+	text-align: center;
+	font-size: 0.9rem;
+	color: #fff;
+	max-width: 300px;
+	line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+	.card-number-input {
+		width: 240px;
+		height: 38px;
+		font-size: 1.2rem;
+		padding: 0.4rem 2rem;
+	}
+
+	.card-button {
+		width: 160px;
+		font-size: 0.95rem;
+		padding: 0.5rem 1.5rem;
+	}
+
+	.card-image {
+		width: 90px;
+		height: 90px;
+	}
+
+	.card-instruction {
+		max-width: 240px;
+		font-size: 0.85rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.card-number-input {
+		width: 180px;
+		height: 36px;
+		font-size: 1rem;
+		padding: 0.4rem 1.5rem;
+	}
+
+	.card-button {
+		width: 140px;
+		font-size: 0.9rem;
+		padding: 0.4rem 1.2rem;
+	}
+
+	.card-image {
+		width: 75px;
+		height: 75px;
+	}
+
+	.card-instruction {
+		max-width: 200px;
+		font-size: 0.8rem;
+	}
+}
+
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 999;
+}
+
+.modal-content {
+	background-color: #4e0000;
+	color: #fff;
+	padding: 2rem;
+	border-radius: 12px;
+	max-width: 500px;
+	width: 90%;
+	text-align: center;
+	position: relative;
+}
+
+.modal-close {
+	position: absolute;
+	top: 0.5rem;
+	right: 1rem;
+	background: none;
+	border: none;
+	color: #fff;
+	font-size: 2rem;
+	cursor: pointer;
+}
+
+.modal-content ol {
+	text-align: left;
+	margin-top: 1rem;
+}
+
+.modal-content li {
+	margin-bottom: 0.8rem;
+}
+
+.active-stage {
+	font-weight: bold;
+	color: #a10000;
+}

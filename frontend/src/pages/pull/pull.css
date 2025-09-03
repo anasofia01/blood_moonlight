@@ -1,0 +1,65 @@
+.vote-grid {
+	display: grid;
+	gap: 15px;
+	padding: 15px;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 768px) {
+	.vote-grid {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+.pull-btn {
+	background-color: #a6000c;
+	color: white;
+	border: none;
+	border-radius: 17px;
+	padding: 0.7rem 1.5rem;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	margin: 1.5rem auto;
+	display: block;
+	transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.pull-btn:hover {
+	background-color: #7a0009;
+}
+
+.pull-btn:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.waiting-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	min-height: 70vh;
+	padding: 1.5rem;
+}
+
+.waiting-title {
+	font-family: 'Cormorant Garamond', serif;
+	font-size: 2rem;
+	color: #fff;
+	margin-bottom: 1rem;
+}
+
+.waiting-description {
+	font-size: 1rem;
+	max-width: 400px;
+	color: #ddd;
+	margin-bottom: 1.5rem;
+}
+
+.waiting-image {
+	width: 160px;
+	height: auto;
+	border-radius: 12px;
+}
