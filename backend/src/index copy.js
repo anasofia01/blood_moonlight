@@ -1,4 +1,5 @@
 const express = require("express");
+const missions = require("./missions");
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
@@ -28,26 +29,55 @@ const createPlayer = ({ id, name = "Jugador", isHost = false }) => ({
   alive: true,
   infectionRounds: 0,
   lastSeenRound: 0,
+  missionsCompleted: [],
 });
 
 const markPlayerDead = (player, roomId) => {
+  const wasInfected = player.role === "vampiro infectado";
+
   player.points = 0;
   player.alive = false;
-  io.to(player.id).emit("playerGameOver");
+  player.role = "Vampiro común";
+
+  const room = getRoom(roomId);
+
+  if (getAlivePlayers(room).length > 1) {
+    io.to(player.id).emit("playerGameOver");
+  }
+
+  if (wasInfected) {
+    console.log(`${player.name} murió siendo infectado. Reasignando...`);
+    assignNewInfectedIfNeeded(room);
+  }
+
+  checkWinner(room);
   emitRoomUpdate(roomId);
 };
 
 const assignNewInfectedIfNeeded = (room) => {
-  if (!room.players.find((p) => p.role === "Vampiro infectado")) {
+  const hasAliveInfected = room.players.some(
+    (p) => p.role === "vampiro infectado" && p.alive
+  );
+
+  if (!hasAliveInfected) {
     const alive = getAlivePlayers(room);
     if (alive.length > 0) {
       const newInfected = alive[Math.floor(Math.random() * alive.length)];
-      newInfected.role = "Vampiro infectado";
+      newInfected.role = "vampiro infectado";
       newInfected.infectionRounds = 0;
+
+      console.log(
+        `Nuevo infectado en room: ${newInfected.name} (${newInfected.id})`
+      );
+
       io.to(room.roomId).emit("infectionChanged", {
         newInfectedId: newInfected.id,
         newInfectedName: newInfected.name,
       });
+    } else {
+      console.log(
+        `No quedan jugadores vivos para reasignar infección en room ${room.roomId}`
+      );
     }
   }
 };
@@ -56,11 +86,14 @@ const checkWinner = (room) => {
   const alive = getAlivePlayers(room);
   if (alive.length === 1) {
     const winner = alive[0];
-    io.to(room.roomId).emit("playerWinner", {
+    room.gameEnded = true;
+
+    io.to(room.roomId).emit("gameEnded", {
       winnerId: winner.id,
       winnerName: winner.name,
     });
-    console.log(`🏆 ${winner.name} ha ganado la partida.`);
+
+    console.log(`${winner.name} ha ganado la partida.`);
     return true;
   }
   return false;
@@ -102,7 +135,7 @@ io.on("connection", (socket) => {
 
     players.forEach((p, i) => {
       p.turnOrder = i + 1;
-      p.role = i === infectedIndex ? "Vampiro infectado" : "Vampiro común";
+      p.role = i === infectedIndex ? "vampiro infectado" : "Vampiro común";
       p.infectionRounds = 0;
     });
 
@@ -154,15 +187,48 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("mapSelected", ({ roomId, playerId, map }) => {
+  socket.on("mapSelected", ({ roomId, playerId, mapId }) => {
     const room = getRoom(roomId);
     if (!room) return;
 
     const player = getPlayer(room, playerId);
     if (!player) return;
 
-    player.selectedMap = map;
-    io.to(player.id).emit("mapConfirmed");
+    player.selectedMap = mapId;
+
+    if (!player.visitedMaps) player.visitedMaps = [];
+    if (!player.visitedMaps.includes(mapId)) {
+      player.visitedMaps.push(mapId);
+    }
+
+    console.log(`Jugador ${player.name} seleccionó el mapa ${mapId}`);
+
+    missions.forEach((mission) => {
+      const notCompleted = !player.missionsCompleted.includes(mission.text);
+      const hasAllMaps = mission.mapIds.every((id) =>
+        player.visitedMaps.includes(id)
+      );
+
+      if (notCompleted && hasAllMaps) {
+        if (player.alive) {
+          player.missionsCompleted.push(mission.text);
+          const oldPoints = player.points;
+          player.points += mission.points;
+
+          io.to(player.id).emit("missionCompleted", mission);
+
+          console.log(
+            `Misión completada: "${mission.text}" | Jugador: ${player.name} | +${mission.points} pts | Total: ${oldPoints} → ${player.points}`
+          );
+        } else {
+          console.log(
+            `${player.name} cumplió la misión "${mission.text}" pero estaba muerto, no recibe puntos`
+          );
+        }
+      }
+    });
+
+    io.to(player.id).emit("mapConfirmed", mapId);
     emitRoomUpdate(roomId);
   });
 
@@ -178,7 +244,7 @@ io.on("connection", (socket) => {
     if (player.points <= 0) {
       markPlayerDead(player, roomId);
 
-      if (player.role === "Vampiro infectado") {
+      if (player.role === "vampiro infectado") {
         assignNewInfectedIfNeeded(room);
       }
 
@@ -201,11 +267,20 @@ io.on("connection", (socket) => {
     if (!source || !target) return;
 
     target.points -= points;
-    if (target.points <= 0) markPlayerDead(target, roomId);
 
-    source.role = "Vampiro común";
-    target.role = "Vampiro infectado";
-    target.infectionRounds = 0;
+    if (target.points <= 0) {
+      // El objetivo murió: no puede volverse infectado
+      markPlayerDead(target, roomId);
+    } else {
+      // Infección exitosa
+      source.role = "Vampiro común";
+      target.role = "vampiro infectado";
+      target.infectionRounds = 0;
+
+      console.log(
+        `🧛 ${source.name} infectó a ${target.name} en room ${room.roomId}`
+      );
+    }
 
     io.to(roomId).emit("playerInfected", {
       sourceId,
@@ -256,7 +331,7 @@ io.on("connection", (socket) => {
       stakedPlayer.alive = false;
       stakedPlayer.points = 0;
 
-      const wasInfected = stakedPlayer.role === "Vampiro infectado";
+      const wasInfected = stakedPlayer.role === "vampiro infectado";
 
       room.players.forEach((p) => {
         if (p.alive) {
@@ -272,7 +347,7 @@ io.on("connection", (socket) => {
         const alive = room.players.filter((p) => p.alive);
         if (alive.length > 0) {
           const newInfected = alive[Math.floor(Math.random() * alive.length)];
-          newInfected.role = "Vampiro infectado";
+          newInfected.role = "vampiro infectado";
         }
       }
 
@@ -307,7 +382,7 @@ io.on("connection", (socket) => {
       alive.forEach((p) => {
         p.endedTurn = false;
 
-        if (p.role === "Vampiro infectado") {
+        if (p.role === "vampiro infectado") {
           p.infectionRounds = (p.infectionRounds || 0) + 1;
           const penalties = [0, -5, -8, -10];
           const pts = penalties[p.infectionRounds] || -10;
@@ -319,7 +394,7 @@ io.on("connection", (socket) => {
 
           if (p.infectionRounds >= 3 || p.points <= 0) {
             markPlayerDead(p, roomId);
-            console.log(`💀 ${p.name} ha muerto por no propagar la infección.`);
+            console.log(`${p.name} ha muerto por no propagar la infección.`);
           }
         }
       });

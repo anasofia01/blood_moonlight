@@ -65,7 +65,7 @@ const CardPage = () => {
 	}, [navigate, playerId, roomId]);
 
 	useEffect(() => {
-		if (player?.role === 'Vampiro infectado' && ronda > 1) {
+		if (player?.role === 'vampiro infectado' && ronda > 1) {
 			setShowModal(true);
 		} else {
 			setShowModal(false);
@@ -101,7 +101,7 @@ const CardPage = () => {
 					<button className='card-button' onClick={handleSubmit}>
 						Escanear
 					</button>
-					<img className='card-image' src='/images/cardImage.png' alt='' />
+					<img className='card-image' src='https://pbs.twimg.com/media/Gz8lVZxWkAAM48M?format=jpg&name=medium' alt='' />
 				</div>
 			</div>
 

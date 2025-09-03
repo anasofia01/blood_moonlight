@@ -1,32 +1,32 @@
 export const mapsData = [
 	{
 		id: 1,
-		image: '/images/plazaMapa.png',
+		image: 'https://pbs.twimg.com/media/Gz8c43sWkAAd6xw?format=jpg&name=900x900',
 		name: 'Plaza del reloj',
 	},
 	{
 		id: 2,
-		image: '/images/cementerioMapa.png',
+		image: 'https://pbs.twimg.com/media/Gz8c-sYWQAAH3PZ?format=jpg&name=900x900',
 		name: 'Cementerio de los antiguos',
 	},
 	{
 		id: 3,
-		image: '/images/catedralMapa.png',
+		image: 'https://pbs.twimg.com/media/Gz8cc8CXAAA23o5?format=jpg&name=900x900',
 		name: 'Catedral de la luna roja',
 	},
 	{
 		id: 4,
-		image: '/images/barrioMapa.png',
+		image: 'https://pbs.twimg.com/media/Gz8czvXW0AAg1SC?format=jpg&name=900x900',
 		name: 'Barrio olvidado',
 	},
 	{
 		id: 5,
-		image: '/images/tunelesMapa.png',
+		image: 'https://pbs.twimg.com/media/Gz8cVkhXcAAZz2s?format=jpg&name=900x900',
 		name: 'Túneles del susurro',
 	},
 	{
 		id: 6,
-		image: '/images/castilloMapa.png',
+		image: 'https://pbs.twimg.com/media/Gz8ggt0WQAEuj67?format=jpg&name=900x900',
 		name: 'Castillo del consejo',
 	},
 ];
@@ -888,15 +888,6 @@ export const cardData = [
 		points: '-7 pts',
 		isVampireCard: false,
 	},
-	{
-		id: 101,
-		title: 'Cuervo Sombrío',
-		description:
-			'Un cuervo demasiado grande pasa volando encima tuyo, sus garras te atrapan y te mueven 12 casillas hacia atrás',
-		image: 'https://pbs.twimg.com/media/Gz4WORlWcAAdRT5?format=png&name=900x900',
-		points: '-7 pts',
-		isVampireCard: false,
-	},
 
 	{
 		id: 100,
@@ -1065,7 +1056,7 @@ export const cardData = [
 	{
 		id: 119,
 		title: 'La voz de La Luna',
-		description: 'La luna te llama, eres el elegido. Lanza los dados y avanza las casillas que iindiquen.',
+		description: 'La luna te llama, eres el elegido. Lanza los dados y avanza las casillas que indiquen.',
 		points: '+4 pts',
 		isVampireCard: false,
 		image: 'https://pbs.twimg.com/media/Gz4WUeEXEAAVRuK?format=png&name=900x900',
@@ -1181,7 +1172,7 @@ export const cardData = [
 		id: 132,
 		title: 'Secreto Carmesí',
 		description:
-			'	Elige al mejor contrincante vampírico. Piensa en un color del tablero. Tu rival debe adivinarlo en un intento. Si acierta, gana él. Si falla, ganas tú.',
+			'Elige al mejor contrincante vampírico. Piensa en un color del tablero. Tu rival debe adivinarlo en un intento. Si acierta, gana él. Si falla, ganas tú.',
 		points: '+8 pts',
 		isVampireCard: true,
 		image: 'https://pbs.twimg.com/media/Gz4WUeEXEAAVRuK?format=png&name=900x900',
@@ -1290,5 +1281,59 @@ export const cardData = [
 		points: '-7 pts',
 		isVampireCard: true,
 		image: 'https://pbs.twimg.com/media/Gz4WUeEXEAAVRuK?format=png&name=900x900',
+	},
+	{
+		id: 666,
+		title: 'Ojo de Murcielago',
+		description:
+			'Un ojo que nunca parpadea… porque está seco desde hace siglos. Aun así, revela más de lo que quisieras. Puedes ver el rol secreto de un jugador en tu misma locación.',
+		points: '-25 pts',
+		isVampireCard: false,
+		image: 'https://pbs.twimg.com/media/Gz8sbtbW4AAIK-N?format=jpg&name=900x900',
+	},
+	{
+		id: 999,
+		title: 'Ajo Sombrío',
+		description:
+			'Un ajo tan viejo y oscuro que ya ni sirve para cocinar. Pero vaya que espanta. Elige un jugador: queda paralizado y no podrá moverse en su próximo turno.',
+		points: '-30 pts',
+		isVampireCard: false,
+		image: 'https://pbs.twimg.com/media/Gz8svalWkAAFppl?format=jpg&name=900x900',
+	},
+	{
+		id: 777,
+		title: 'Pluma de Cuervo',
+		description:
+			'Una pluma caída de un cuervo que aún grazna en sueños. Al sostenerla, el viento susurra tu destino y te permite volar (o al menos simularlo). Puedes moverte a la localidad que quieras.',
+		points: '-30 pts',
+		isVampireCard: false,
+		image: 'https://pbs.twimg.com/media/Gz8ssr6W8AA_U0-?format=jpg&name=900x900',
+	},
+	{
+		id: 333,
+		title: 'Caliz Carmesí',
+		description:
+			'Antiguo, elegante y con dudosos estándares de higiene. Si lo levantas al cielo, la luna sonríe irónicamente y las posiciones cambian. Elige a un jugador y cámbiate de lugar con él.',
+		points: '-30 pts',
+		isVampireCard: false,
+		image: 'https://pbs.twimg.com/media/Gz8sp4vWsAA_IlR?format=jpg&name=900x900',
+	},
+	{
+		id: 222,
+		title: 'Colmillo de plata',
+		description:
+			'Dicen que perteneció a un vampiro supersticioso con pésima dentadura. Ahora es tu amuleto. Si alguien usa un objeto contra ti, este colmillo anula su acción maligna.',
+		points: '-25 pts',
+		isVampireCard: false,
+		image: 'https://pbs.twimg.com/media/Gz8skkQXkAEmfCv?format=jpg&name=900x900',
+	},
+	{
+		id: 888,
+		title: 'Daga de Hueso',
+		description:
+			'Forjada con tibias de algún pobre desdichado. La amenaza es silenciosa pero clara: obligas a un jugador de tu misma localidad a mudarse a otra, por tu seguridad.',
+		points: '-25 pts',
+		isVampireCard: false,
+		image: 'https://pbs.twimg.com/media/Gz8sgxaXoAAyiKW?format=jpg&name=900x900',
 	},
 ];
